@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - run: swift --version
+
+      # The point of the repository: if an example stops compiling under
+      # strict concurrency, the advice attached to it has gone stale and the
+      # build must say so.
+      - name: Build every example under Swift 6 language mode
+        run: swift build
+
+      - name: Test
+        run: swift test
+
+      # Prose and code have to stay paired. A note whose example was deleted,
+      # or an example nobody documented, is exactly the drift this repo exists
+      # to prevent.
+      - name: Notes and examples stay paired
+        run: |
+          python3 - <<'PY'
+          import pathlib, re, sys
+
+          notes = sorted(pathlib.Path("Notes").glob("*.md"))
+          sources = sorted(pathlib.Path("Sources/MigrationCases").glob("*.swift"))
+          problems = []
+
+          note_ids = {n.name.split("-")[0] for n in notes}
+          source_ids = {s.name.split("-")[0] for s in sources}
+
+          for missing in sorted(source_ids - note_ids):
+              problems.append(f"case {missing} has code but no note")
+          for missing in sorted(note_ids - source_ids):
+              problems.append(f"case {missing} has a note but no code")
+
+          # Every link a note makes into Sources/ must resolve.
+          for note in notes:
+              for link in re.findall(r"\]\((\.\./Sources/[^)]+)\)", note.read_text()):
+                  target = (note.parent / link).resolve()
+                  if not target.exists():
+                      problems.append(f"{note.name}: broken link to {link}")
+
+          if problems:
+              print("\n".join(f"  {p}" for p in problems))
+              sys.exit(f"{len(problems)} pairing problem(s)")
+          print(f"{len(notes)} notes, {len(sources)} examples, all paired")
+          PY
