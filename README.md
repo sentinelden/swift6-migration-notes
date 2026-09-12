@@ -8,9 +8,9 @@
 
 ## Why this exists
 
-Concurrency advice rots faster than almost any other documentation. Diagnostics change between toolchains, and guidance that was right in 5.10 becomes wrong without anyone noticing — which is how a blog post from two years ago talks you into `@unchecked Sendable` on a type that would now be `Sendable` for free.
+Concurrency advice rots faster than almost any other documentation. Diagnostics change between toolchains, and guidance that was right in 5.10 becomes wrong without anyone noticing, which is how a blog post from two years ago talks you into `@unchecked Sendable` on a type that would now be `Sendable` for free.
 
-So every fix in these notes has a **compiled counterpart** in [`Sources/MigrationCases/`](Sources/MigrationCases/), built under Swift 6 language mode with full strict concurrency. CI fails the day an example stops being true. Where a note makes a claim about *runtime behaviour* — that an actor is not a serial queue, that a bare continuation ignores cancellation — there is a test demonstrating it.
+So every fix in these notes has a **compiled counterpart** in [`Sources/MigrationCases/`](Sources/MigrationCases/), built under Swift 6 language mode with full strict concurrency. CI fails the day an example stops being true. Where a note makes a claim about *runtime behaviour* (that an actor is not a serial queue, that a bare continuation ignores cancellation), there is a test demonstrating it.
 
 ## The cases
 
@@ -29,13 +29,13 @@ Each note follows the same shape: the diagnostic, why the compiler is right, the
 
 ## The three that cost the most
 
-If you read only part of this, read these — they are the ones where the code compiles and the behaviour changed.
+If you read only part of this, read these: they are the ones where the code compiles and the behaviour changed.
 
-**[05 — actors are reentrant.](Notes/05-queue-to-actor.md)** An actor releases isolation at every `await`. A check-then-act that a serial queue made atomic is no longer atomic. Ten concurrent callers all miss the cache and all fetch. There is a test in this repo demonstrating exactly that, and the fix.
+**[05, actors are reentrant.](Notes/05-queue-to-actor.md)** An actor releases isolation at every `await`. A check-then-act that a serial queue made atomic is no longer atomic. Ten concurrent callers all miss the cache and all fetch. There is a test in this repo demonstrating exactly that, and the fix.
 
-**[04 — `Task {}` inherits isolation but not ordering.](Notes/04-task-capture.md)** Code that relied on a serial queue for sequencing compiles clean and runs out of order. No error, no warning, only shows up under load.
+**[04, `Task {}` inherits isolation but not ordering.](Notes/04-task-capture.md)** Code that relied on a serial queue for sequencing compiles clean and runs out of order. No error, no warning, only shows up under load.
 
-**[06 — continuations do not observe cancellation.](Notes/06-continuation-bridging.md)** The obvious wrapper produces a task that ignores `cancel()` and hangs forever. `withTaskCancellationHandler` is necessary but not sufficient: cancellation and completion race, so a single-resume guard is required.
+**[06, continuations do not observe cancellation.](Notes/06-continuation-bridging.md)** The obvious wrapper produces a task that ignores `cancel()` and hangs forever. `withTaskCancellationHandler` is necessary but not sufficient: cancellation and completion race, so a single-resume guard is required.
 
 ## Running it
 
@@ -58,7 +58,7 @@ Doing this across twelve SDKs, the sequence that worked:
 
 ## Contributing
 
-Cases welcome, with the same shape: a real diagnostic you hit, a compiled fix, and — where it makes a claim about runtime behaviour — a test that demonstrates it. Prose without a compiled counterpart is what this repository exists to avoid.
+Cases welcome, with the same shape: a real diagnostic you hit, a compiled fix, and (where it makes a claim about runtime behaviour) a test that demonstrates it. Prose without a compiled counterpart is what this repository exists to avoid.
 
 Under-covered: `AsyncSequence` conformances, `@preconcurrency import` and when to remove it, isolated deinit in Swift 6.1+, and distributed actors.
 
@@ -68,4 +68,4 @@ MIT. See [`LICENSE`](LICENSE).
 
 ## Who writes this
 
-[Sentinel Den](https://sentinelden.com) — iOS security research and runtime-defense SDKs from Vancouver, BC. These notes came out of migrating our own SDKs to Swift 6, twelve times over, and wishing someone had written them down first.
+[Sentinel Den](https://sentinelden.com), iOS security research and runtime-defense SDKs from Vancouver, BC. These notes came out of migrating our own SDKs to Swift 6, twelve times over, and wishing someone had written them down first.

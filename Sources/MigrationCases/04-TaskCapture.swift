@@ -1,4 +1,4 @@
-// Case 04 — capturing self in a Task
+// Case 04, capturing self in a Task
 //
 // The error (5.10 warning, 6.0 error):
 //   error: capture of 'self' with non-Sendable type 'Downloader' in a
@@ -17,7 +17,7 @@ import Foundation
 /// The ordering trap: `Task {}` inherits isolation but NOT execution order.
 /// Two tasks started back to back from the main actor can run in either order.
 /// Code that relied on serial dispatch to a queue for ordering will compile
-/// clean here and behave differently — which is why this case has a test.
+/// clean here and behave differently, which is why this case has a test.
 @MainActor
 public final class Downloader {
     public private(set) var completed: [String] = []
@@ -52,7 +52,7 @@ public final class Downloader {
 /// diagnostic was about. Everything it captures must genuinely be sendable.
 public func fetchIndependently(id: Int) -> Task<Int, Never> {
     Task.detached {
-        // `id` is an Int — sendable. Capturing a non-sendable object here
+        // `id` is an Int, sendable. Capturing a non-sendable object here
         // would be a real race, not a false positive.
         id * 2
     }

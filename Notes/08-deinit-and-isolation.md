@@ -1,4 +1,4 @@
-# 08 — `deinit` cannot be isolated
+# 08: `deinit` cannot be isolated
 
 ```
 error: call to main actor-isolated instance method 'invalidate()' in a
@@ -9,7 +9,7 @@ synchronous nonisolated context
 
 ## Why the compiler is right
 
-`deinit` is always nonisolated, on every type including actors. Deallocation happens wherever the last reference is released, which could be any thread. It cannot hop to an actor — there is nothing left to suspend — so it cannot touch isolated state.
+`deinit` is always nonisolated, on every type including actors. Deallocation happens wherever the last reference is released, which could be any thread. It cannot hop to an actor (there is nothing left to suspend), so it cannot touch isolated state.
 
 ## The fixes
 
@@ -37,6 +37,6 @@ This captures `self` inside its own `deinit`. The object is already being torn d
 
 ## What changes at runtime
 
-Option 1: cleanup now happens when the caller says so rather than at an unpredictable deallocation point — generally more deterministic, and a good thing. Option 2: nothing.
+Option 1: cleanup now happens when the caller says so rather than at an unpredictable deallocation point, generally more deterministic, and a good thing. Option 2: nothing.
 
 → Compiled examples: [`08-DeinitAndIsolation.swift`](../Sources/MigrationCases/08-DeinitAndIsolation.swift)

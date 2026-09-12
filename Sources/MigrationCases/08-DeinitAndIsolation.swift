@@ -1,4 +1,4 @@
-// Case 08 — deinit cannot be isolated
+// Case 08, deinit cannot be isolated
 //
 // The error:
 //   error: call to main actor-isolated instance method 'invalidate()' in a

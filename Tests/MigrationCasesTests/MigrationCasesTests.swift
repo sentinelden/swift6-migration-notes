@@ -127,7 +127,7 @@ final class ReentrancyTests: XCTestCase {
                     try await cache.image(at: url) { _ in
                         await fetchCount.increment()
                         // Yield so the other callers are guaranteed to arrive
-                        // during this await — the interleaving window is the
+                        // during this await, the interleaving window is the
                         // whole point.
                         try await Task.sleep(nanoseconds: 10_000_000)
                         return Data([1, 2, 3])

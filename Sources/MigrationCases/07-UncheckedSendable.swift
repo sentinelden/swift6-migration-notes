@@ -1,4 +1,4 @@
-// Case 07 — @unchecked Sendable: when it is a fact and when it is a wish
+// Case 07, @unchecked Sendable: when it is a fact and when it is a wish
 //
 // No error drives this. It is the escape hatch, and the single biggest
 // determinant of whether a migration produced safer code or just quieter code.

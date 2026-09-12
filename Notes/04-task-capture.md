@@ -1,4 +1,4 @@
-# 04 — Capturing `self` in a `Task`
+# 04: Capturing `self` in a `Task`
 
 ```
 error: capture of 'self' with non-Sendable type 'Downloader' in a '@Sendable' closure
@@ -34,6 +34,6 @@ An actor guarantees mutual exclusion, never FIFO across separately created tasks
 
 ## The escape hatch and why it is a trap
 
-`Task.detached` makes the diagnostic go away by leaving the isolation domain entirely — which reintroduces exactly the race being reported. Use it when the work is genuinely independent and everything captured is genuinely sendable, not to quiet a warning.
+`Task.detached` makes the diagnostic go away by leaving the isolation domain entirely, which reintroduces exactly the race being reported. Use it when the work is genuinely independent and everything captured is genuinely sendable, not to quiet a warning.
 
 → Compiled examples: [`04-TaskCapture.swift`](../Sources/MigrationCases/04-TaskCapture.swift)

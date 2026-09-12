@@ -1,4 +1,4 @@
-# 01 — Global mutable state
+# 01: Global mutable state
 
 ```
 error: global variable 'requestCount' is not concurrency-safe because it is
@@ -9,7 +9,7 @@ The first error almost everyone hits, and usually the largest count in the build
 
 ## Why the compiler is right
 
-A global `var` can be read and written from any thread with no synchronisation. That was always a data race; Swift 5 just had no way to say so. Nothing about your program changed — the compiler's vision improved.
+A global `var` can be read and written from any thread with no synchronisation. That was always a data race; Swift 5 just had no way to say so. Nothing about your program changed, the compiler's vision improved.
 
 ## The fixes, in the order worth trying
 
@@ -25,9 +25,9 @@ let defaultTimeout: TimeInterval = 30
 @MainActor final class SessionState { static let shared = SessionState() }
 ```
 
-**3. It is genuinely shared, mutable state.** Then it wants an actor, and every access becomes `await`. That cost is real, and it is the honest price — it was always this expensive, you just were not being charged.
+**3. It is genuinely shared, mutable state.** Then it wants an actor, and every access becomes `await`. That cost is real, and it is the honest price: it was always this expensive, and you just were not being charged.
 
-**4. `nonisolated(unsafe)`, when a lock already exists.** Legitimate when the value is protected by something the compiler cannot see — an `NSLock`, a serial queue you still own. The annotation then records a fact.
+**4. `nonisolated(unsafe)`, when a lock already exists.** Legitimate when the value is protected by something the compiler cannot see, an `NSLock`, a serial queue you still own. The annotation then records a fact.
 
 ## The escape hatch and why it is a trap
 

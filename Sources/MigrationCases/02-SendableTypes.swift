@@ -1,4 +1,4 @@
-// Case 02 — non-Sendable types crossing an isolation boundary
+// Case 02, non-Sendable types crossing an isolation boundary
 //
 // The error:
 //   error: capture of 'user' with non-Sendable type 'User' in a '@Sendable'
@@ -29,7 +29,7 @@ public struct User: Sendable, Equatable {
 // MARK: - Fix 2: a reference type that is genuinely immutable
 
 /// A final class with only `let` properties of sendable type is safe to share,
-/// and the compiler can verify that — no `@unchecked` required. Reaching for
+/// and the compiler can verify that, no `@unchecked` required. Reaching for
 /// `@unchecked Sendable` here is the most common unnecessary use of it.
 public final class ImmutableSession: Sendable {
     public let token: String

@@ -1,4 +1,4 @@
-// Case 05 — replacing a serial DispatchQueue with an actor
+// Case 05, replacing a serial DispatchQueue with an actor
 //
 // No compiler error drives this one. It is the migration people undertake
 // voluntarily, and the one that most often introduces a bug, because an actor

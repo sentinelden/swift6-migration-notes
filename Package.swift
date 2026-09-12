@@ -1,6 +1,6 @@
 // swift-tools-version: 6.0
 //
-// swift6-migration-notes — real Swift 6 strict-concurrency migration cases.
+// swift6-migration-notes: real Swift 6 strict-concurrency migration cases.
 //
 // The whole point of this package is that the examples COMPILE. Notes about
 // concurrency rot faster than almost any other documentation, because the

@@ -1,4 +1,4 @@
-# 06 — Bridging completion handlers
+# 06: Bridging completion handlers
 
 ```
 error: passing closure as a 'sending' parameter risks causing data races
@@ -10,7 +10,7 @@ error: passing closure as a 'sending' parameter risks causing data races
 
 ## The part every example omits
 
-**A continuation does not observe cancellation.** The obvious wrapper produces a task that ignores `cancel()` and never completes. Not a leak — a hang. It will not surface until something upstream starts cancelling, which is usually a `SwiftUI` `.task` modifier on a view someone scrolled away from.
+**A continuation does not observe cancellation.** The obvious wrapper produces a task that ignores `cancel()` and never completes. Not a leak, a hang. It will not surface until something upstream starts cancelling, which is usually a `SwiftUI` `.task` modifier on a view someone scrolled away from.
 
 `withTaskCancellationHandler` is necessary but not sufficient, because **cancellation and completion race**:
 
@@ -23,7 +23,7 @@ Both paths need to go through one lock-protected slot, where the first to arrive
 
 It is not `Sendable`, because `any Error` is not. Two ways out:
 
-- `sending` on the parameter — the caller gives up its copy at the call.
-- Constrain the failure to `Error & Sendable` — better when you control the legacy API's error type.
+- `sending` on the parameter, the caller gives up its copy at the call.
+- Constrain the failure to `Error & Sendable`: better when you control the legacy API's error type.
 
 → Compiled example including the single-resume guard: [`06-ContinuationBridging.swift`](../Sources/MigrationCases/06-ContinuationBridging.swift)

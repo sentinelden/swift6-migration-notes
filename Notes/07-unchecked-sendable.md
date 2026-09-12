@@ -1,4 +1,4 @@
-# 07 — `@unchecked Sendable`: fact or wish
+# 07: `@unchecked Sendable`: fact or wish
 
 No error drives this. It is the escape hatch, and it is the single biggest determinant of whether a migration produced safer code or merely quieter code.
 
@@ -10,7 +10,7 @@ Before using it, complete this sentence in a comment:
 
 > This is safe because ___
 
-If the blank cannot be filled — or the honest filling is *"an actor would have meant changing every caller"* — the annotation is wrong.
+If the blank cannot be filled, or the honest filling is *"an actor would have meant changing every caller"*, the annotation is wrong.
 
 ## Legitimate uses
 
@@ -38,7 +38,7 @@ There is no invariant to maintain. The annotation silences the diagnostic and le
 
 ## What to do instead
 
-Before reaching for it, in order: make the type a value type; make the class `final` with only `let` properties (then it is `Sendable` with no `@unchecked` at all — the most commonly missed option); make it an actor; isolate it to `@MainActor`.
+Before reaching for it, in order: make the type a value type; make the class `final` with only `let` properties (then it is `Sendable` with no `@unchecked` at all, the most commonly missed option); make it an actor; isolate it to `@MainActor`.
 
 ## Auditing a finished migration
 

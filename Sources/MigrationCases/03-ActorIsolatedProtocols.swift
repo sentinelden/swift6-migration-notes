@@ -1,19 +1,19 @@
-// Case 03 — protocol conformance across isolation
+// Case 03, protocol conformance across isolation
 //
 // The error:
 //   error: main actor-isolated instance method 'didUpdate' cannot be used to
 //   satisfy nonisolated requirement from protocol 'DataSourceDelegate'
 //
 // The single most disruptive error in a real migration, because it shows up in
-// every delegate protocol written before 2021 and the fix is not local — it
+// every delegate protocol written before 2021 and the fix is not local: it
 // changes the protocol's contract. See Notes/03-actor-isolated-protocols.md.
 
 import Foundation
 
 // MARK: - Fix 1: isolate the protocol itself
 
-/// If every conformer is UI code — which is true of most delegate protocols in
-/// an app target — isolate the protocol. Conformers then get `@MainActor` for
+/// If every conformer is UI code, which is true of most delegate protocols in
+/// an app target, isolate the protocol. Conformers then get `@MainActor` for
 /// free and callers are forced to hop, which is what was happening informally
 /// anyway.
 @MainActor

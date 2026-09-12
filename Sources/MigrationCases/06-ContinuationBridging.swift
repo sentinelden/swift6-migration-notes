@@ -1,4 +1,4 @@
-// Case 06 — bridging completion handlers
+// Case 06, bridging completion handlers
 //
 // The error:
 //   error: passing closure as a 'sending' parameter risks causing data races

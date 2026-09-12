@@ -1,6 +1,6 @@
-# 05 — Replacing a serial `DispatchQueue` with an actor
+# 05: Replacing a serial `DispatchQueue` with an actor
 
-No compiler error drives this one. It is the change people make voluntarily, and the one that most often introduces a bug — because **an actor is not a serial queue**.
+No compiler error drives this one. It is the change people make voluntarily, and the one that most often introduces a bug, because **an actor is not a serial queue**.
 
 ## The difference that matters
 
@@ -35,7 +35,7 @@ inFlight[url] = task
 
 ## The rule
 
-**Any `await` inside an actor method is a place where the world can change.** Re-read state after it; do not trust anything you checked before it. Treat every `await` the way you would treat releasing and reacquiring a lock — because that is exactly what it is.
+**Any `await` inside an actor method is a place where the world can change.** Re-read state after it; do not trust anything you checked before it. Treat every `await` the way you would treat releasing and reacquiring a lock, because that is exactly what it is.
 
 ## What changes at runtime
 

@@ -1,4 +1,4 @@
-// Case 01 — global mutable state
+// Case 01, global mutable state
 //
 // The error:
 //   error: global variable 'requestCount' is not concurrency-safe because it
@@ -19,8 +19,8 @@ public let defaultTimeout: TimeInterval = 30
 
 /// When the state really is mutated from several places, an actor is the
 /// answer the language wants you to give. The cost is that every access
-/// becomes `await`, which is the honest price of shared mutable state — it
-/// was always this expensive, the compiler just could not make you pay
+/// becomes `await`, which is the honest price of shared mutable state: it
+/// was always this expensive, and the compiler just could not make you pay
 /// before.
 public actor RequestCounter {
     public static let shared = RequestCounter()
@@ -40,8 +40,8 @@ public actor RequestCounter {
 
 // MARK: - Fix 3: state that is conceptually UI-owned
 
-/// If the state is only ever touched from the main thread — which is true of
-/// most app-level caches, view models and coordinators — say so. `@MainActor`
+/// If the state is only ever touched from the main thread, which is true of
+/// most app-level caches, view models and coordinators, say so. `@MainActor`
 /// is cheaper than an actor here because callers on the main actor need no
 /// suspension at all.
 @MainActor
