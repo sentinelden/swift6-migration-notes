@@ -10,7 +10,7 @@ error: passing closure as a 'sending' parameter risks causing data races
 
 ## The part every example omits
 
-**A continuation does not observe cancellation.** The obvious wrapper produces a task that ignores `cancel()` and never completes. Not a leak, a hang. It will not surface until something upstream starts cancelling, which is usually a `SwiftUI` `.task` modifier on a view someone scrolled away from.
+**A continuation does not observe cancellation.** The obvious wrapper produces a task that ignores `cancel()` and never completes. Not a leak, a hang. It will not surface until something upstream starts canceling, which is usually a `SwiftUI` `.task` modifier on a view someone scrolled away from.
 
 `withTaskCancellationHandler` is necessary but not sufficient, because **cancellation and completion race**:
 

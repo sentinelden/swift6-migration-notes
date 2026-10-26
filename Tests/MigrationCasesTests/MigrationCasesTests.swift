@@ -190,7 +190,7 @@ final class ContinuationTests: XCTestCase {
             )
         }
 
-        // Let the task reach its suspension point before cancelling.
+        // Let the task reach its suspension point before canceling.
         try await Task.sleep(nanoseconds: 50_000_000)
         task.cancel()
         _ = try? await task.value

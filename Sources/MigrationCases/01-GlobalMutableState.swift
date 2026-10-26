@@ -59,7 +59,7 @@ public final class SessionState {
 
 // MARK: - Fix 4: nonisolated(unsafe), used honestly
 
-/// `nonisolated(unsafe)` disables the check without changing behaviour. That
+/// `nonisolated(unsafe)` disables the check without changing behavior. That
 /// makes it the right tool in exactly one situation: the value is already
 /// protected by something the compiler cannot see.
 ///

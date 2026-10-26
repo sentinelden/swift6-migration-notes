@@ -14,7 +14,7 @@ import Foundation
 /// block. An actor releases its isolation at every `await`, so another call
 /// can interleave *in the middle of a method*.
 ///
-/// This is the single biggest behavioural difference in the migration and it
+/// This is the single biggest behavioral difference in the migration and it
 /// is invisible in the diff. The check-then-act below is the shape that breaks:
 /// without the in-flight bookkeeping, two concurrent callers both see a cache
 /// miss and both fetch.

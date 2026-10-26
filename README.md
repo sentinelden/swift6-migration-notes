@@ -10,7 +10,7 @@
 
 Concurrency advice rots faster than almost any other documentation. Diagnostics change between toolchains, and guidance that was right in 5.10 becomes wrong without anyone noticing, which is how a blog post from two years ago talks you into `@unchecked Sendable` on a type that would now be `Sendable` for free.
 
-So every fix in these notes has a **compiled counterpart** in [`Sources/MigrationCases/`](Sources/MigrationCases/), built under Swift 6 language mode with full strict concurrency. CI fails the day an example stops being true. Where a note makes a claim about *runtime behaviour* (that an actor is not a serial queue, that a bare continuation ignores cancellation), there is a test demonstrating it.
+So every fix in these notes has a **compiled counterpart** in [`Sources/MigrationCases/`](Sources/MigrationCases/), built under Swift 6 language mode with full strict concurrency. CI fails the day an example stops being true. Where a note makes a claim about *runtime behavior* (that an actor is not a serial queue, that a bare continuation ignores cancellation), there is a test demonstrating it.
 
 ## The cases
 
@@ -29,7 +29,7 @@ Each note follows the same shape: the diagnostic, why the compiler is right, the
 
 ## The three that cost the most
 
-If you read only part of this, read these: they are the ones where the code compiles and the behaviour changed.
+If you read only part of this, read these: they are the ones where the code compiles and the behavior changed.
 
 **[05, actors are reentrant.](Notes/05-queue-to-actor.md)** An actor releases isolation at every `await`. A check-then-act that a serial queue made atomic is no longer atomic. Ten concurrent callers all miss the cache and all fetch. There is a test in this repo demonstrating exactly that, and the fix.
 
@@ -54,11 +54,11 @@ Doing this across twelve SDKs, the sequence that worked:
 2. **Fix leaves first, not the app.** Modules with no dependencies migrate cleanly. Migrating the app first means fighting diagnostics that come from code you have not touched yet.
 3. **Sort by fix category, not by file.** Every `let`-not-`var` global is the same five-second edit. Batching them clears a surprising fraction of the count and leaves the genuinely hard cases visible.
 4. **Do `@unchecked Sendable` last, and audit it.** It is available from day one, which is the problem. `grep -rn "@unchecked Sendable"` at the end and justify each one, or you will have shipped a migration that only silenced the compiler.
-5. **Treat every new `await` as a behaviour change.** Most are harmless. The ones that are not will be in check-then-act code and in anything that depended on ordering.
+5. **Treat every new `await` as a behavior change.** Most are harmless. The ones that are not will be in check-then-act code and in anything that depended on ordering.
 
 ## Contributing
 
-Cases welcome, with the same shape: a real diagnostic you hit, a compiled fix, and (where it makes a claim about runtime behaviour) a test that demonstrates it. Prose without a compiled counterpart is what this repository exists to avoid.
+Cases welcome, with the same shape: a real diagnostic you hit, a compiled fix, and (where it makes a claim about runtime behavior) a test that demonstrates it. Prose without a compiled counterpart is what this repository exists to avoid.
 
 Under-covered: `AsyncSequence` conformances, `@preconcurrency import` and when to remove it, isolated deinit in Swift 6.1+, and distributed actors.
 

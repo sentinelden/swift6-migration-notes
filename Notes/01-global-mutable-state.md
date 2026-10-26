@@ -9,7 +9,7 @@ The first error almost everyone hits, and usually the largest count in the build
 
 ## Why the compiler is right
 
-A global `var` can be read and written from any thread with no synchronisation. That was always a data race; Swift 5 just had no way to say so. Nothing about your program changed, the compiler's vision improved.
+A global `var` can be read and written from any thread with no synchronization. That was always a data race; Swift 5 just had no way to say so. Nothing about your program changed, the compiler's vision improved.
 
 ## The fixes, in the order worth trying
 
@@ -35,6 +35,6 @@ let defaultTimeout: TimeInterval = 30
 
 ## What changes at runtime
 
-Options 1 and 4: nothing. Option 2: callers not already on the main actor must now `await`, so some code moves to a later turn of the run loop. Option 3: same, and the state is now genuinely serialised, which may expose ordering assumptions that were previously accidental.
+Options 1 and 4: nothing. Option 2: callers not already on the main actor must now `await`, so some code moves to a later turn of the run loop. Option 3: same, and the state is now genuinely serialized, which may expose ordering assumptions that were previously accidental.
 
 → Compiled examples: [`01-GlobalMutableState.swift`](../Sources/MigrationCases/01-GlobalMutableState.swift)

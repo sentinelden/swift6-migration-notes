@@ -9,7 +9,7 @@ The most disruptive error in a real migration, because it appears in every deleg
 
 ## Why the compiler is right
 
-A nonisolated requirement promises "callable from anywhere." A `@MainActor` method cannot keep that promise. The protocol was making a guarantee its conformers could not honour.
+A nonisolated requirement promises "callable from anywhere." A `@MainActor` method cannot keep that promise. The protocol was making a guarantee its conformers could not honor.
 
 ## The fixes
 

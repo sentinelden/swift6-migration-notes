@@ -5,7 +5,7 @@
 //
 // And the bug that does not produce any error at all: a continuation does not
 // observe cancellation, so the obvious wrapper produces a task that hangs
-// forever when cancelled. See Notes/06-continuation-bridging.md.
+// forever when canceled. See Notes/06-continuation-bridging.md.
 
 import Foundation
 
@@ -102,7 +102,7 @@ private final class ContinuationGuard<T>: @unchecked Sendable {
 ///
 /// Without the cancellation handler this compiles, looks modern, and produces
 /// a task that ignores `cancel()` and never completes. That is a hang, not a
-/// leak, and it will not show up until something upstream starts cancelling.
+/// leak, and it will not show up until something upstream starts canceling.
 public func loadCancellable(
     start: @escaping (@escaping (Result<Int, Error>) -> Void) -> Void,
     cancel: @Sendable @escaping () -> Void
